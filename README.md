@@ -12,5 +12,5 @@ Process multiple automotive camera feeds to include with data logs while simulta
 
 ### Software Used
 * [Raspberry Pi OS (32-bit) Lite](https://www.raspberrypi.org/downloads/raspberry-pi-os/)
-* [FIM](https://www.nongnu.org/fbi-improved/)
+* [FIM](https://www.nongnu.org/fbi-improved/) image viewer
 * More TBD...
