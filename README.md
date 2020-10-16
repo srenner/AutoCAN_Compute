@@ -4,6 +4,7 @@ Process multiple automotive camera feeds to include with data logs while simulta
 
 ### Hardware Used
 * [NTSC display](https://www.adafruit.com/product/911)
+* [6v Voltage regulator for display](https://www.amazon.com/Converter-DROK-Regulator-Waterproof-Efficiency/dp/B00CGQRIFG/) (typical 5v regulators are too low for my display, automotive ~14v is too high)
 * [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/)
 * [Alpine HCE-C1100 camera](https://www.crutchfield.com/p_500HCEC110/Alpine-HCE-C1100.html)
 * More TBD...
