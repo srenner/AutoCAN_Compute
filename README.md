@@ -13,6 +13,7 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [6v Voltage regulator](https://www.amazon.com/Converter-DROK-Regulator-Waterproof-Efficiency/dp/B00CGQRIFG/) for display
 * [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/)
 * [Alpine HCE-C1100 camera](https://www.crutchfield.com/p_500HCEC110/Alpine-HCE-C1100.html)
+* [BOYO VTSW4](https://visiontechamerica.com/products/vtsw4-4-channel-video-switcher) video switcher
 * Composite video to USB capture card with Linux support
 * More TBD...
 
