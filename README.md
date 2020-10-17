@@ -17,7 +17,6 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [Alpine HCE-C1100 camera](https://www.crutchfield.com/p_500HCEC110/Alpine-HCE-C1100.html)
 * [BOYO VTSW4](https://visiontechamerica.com/products/vtsw4-4-channel-video-switcher) video switcher
 * 2 Composite video to USB capture cards with Linux support
-* More TBD...
 
 ### Software used
 * [Raspberry Pi OS (32-bit) Lite](https://www.raspberrypi.org/downloads/raspberry-pi-os/)
