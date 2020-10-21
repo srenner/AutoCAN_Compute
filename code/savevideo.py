@@ -3,6 +3,16 @@ import time
 
 snapshot_interval = 1 #seconds
 snapshot_sequence = 1 #increment and use on filename
+do_snapshot = False
+
+frame_count = 0
+
+font = cv2.FONT_HERSHEY_SIMPLEX
+text_position = (2,12)
+font_scale = .33
+font_color = (255,255,255)
+line_type = 1
+
 video_cap = cv2.VideoCapture(0)
 if (video_cap.isOpened() == False):
     print("Error opening video stream")
@@ -19,14 +29,22 @@ next_snapshot_time = current_time + snapshot_interval
 try:
     while(True):
         ret, frame = video_cap.read()
+        frame_count += 1
+        cv2.putText(frame,'Hello World ' + str(frame_count),
+            text_position,
+            font,
+            font_scale,
+            font_color,
+            line_type)
+
         do_continue = ret
         if do_continue == True:
-            current_time = time.time()
-            if current_time >= next_snapshot_time:
-                next_snapshot_time = current_time + snapshot_interval
-                #print("taking snapshot")
-                cv2.imwrite('../snapshot/snapshot_' + str(snapshot_sequence) + '.png', frame)
-                snapshot_sequence += 1
+            if do_snapshot == True:
+                current_time = time.time()
+                if current_time >= next_snapshot_time:
+                    next_snapshot_time = current_time + snapshot_interval
+                    cv2.imwrite('../snapshot/snapshot_' + str(snapshot_sequence) + '.jpg', frame)
+                    snapshot_sequence += 1
             video_out.write(frame)
         else:
             break
