@@ -6,8 +6,6 @@ snapshot_interval = 1 #seconds
 snapshot_sequence = 1 #increment and use on filename
 do_snapshot = False
 
-#degree_sign= "\N{GREEK CAPITAL LETTER DELTA}"
-
 frame_count = 0
 
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -21,7 +19,6 @@ if (video_cap.isOpened() == False):
     print("Error opening video stream")
 frame_width = int(video_cap.get(3))
 frame_height = int(video_cap.get(4))
-
 
 #info bar rectangle
 x, y, w, h = 0, 0, frame_width, 15
@@ -41,16 +38,11 @@ try:
         ret, frame = video_cap.read()
         frame_count += 1
 
-
+        # put semi-transparent box on top of frame
         sub_img = frame[y:y+h, x:x+w]
         white_rect = np.ones(sub_img.shape, dtype=np.uint8) * 255
-
         res = cv2.addWeighted(sub_img, 0.5, white_rect, 0.5, 1.0)
-
-        # Putting the image back to its position
         frame[y:y+h, x:x+w] = res
-
-
 
         cv2.putText(frame, placeholder_text + str(frame_count),
             text_position,
