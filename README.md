@@ -21,6 +21,4 @@ A video switcher will send video to the dashboard. When the car is being driven 
 ### Software used
 * [Raspberry Pi OS (32-bit) Lite](https://www.raspberrypi.org/downloads/raspberry-pi-os/)
 * [FIM](https://www.nongnu.org/fbi-improved/) image viewer
-* Custom software to generate data logs
-* Custom software to generate triggers for camera switching
-* More TBD...
+* [OpenCV](https://opencv.org/) computer vision library (Python port)
