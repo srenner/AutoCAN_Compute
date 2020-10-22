@@ -8,9 +8,9 @@ do_snapshot = False
 
 frame_count = 0
 
-font = cv2.FONT_HERSHEY_SIMPLEX
-text_position = (2,10)
-font_scale = .33
+font = cv2.FONT_HERSHEY_PLAIN
+text_position = (0,10)
+font_scale = 0.8
 font_color = (0,0,0)
 line_type = 1
 
@@ -21,9 +21,9 @@ frame_width = int(video_cap.get(3))
 frame_height = int(video_cap.get(4))
 
 #info bar rectangle
-x, y, w, h = 0, 0, frame_width, 15
+x, y, w, h = 0, 0, frame_width, 14
 
-placeholder_text = '12/22/2020 13:25:24 (N) 43F (38.626550, -90.189260) 68MPH '
+placeholder_text = '12/22/2020 13:25:24 | NW | 106F | (38.626550, -90.189260) | 68MPH | 0.32 G | frame '
 
 size = (frame_width, frame_height)
 video_out = cv2.VideoWriter('../video/filename.mp4',
