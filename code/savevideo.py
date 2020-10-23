@@ -22,7 +22,7 @@ frame_height = int(video_cap.get(4))
 
 #info bar rectangle
 x, y, w, h = 0, 0, frame_width, 14
-delimiter = ' | '
+delimiter = '|'
 
 can_data = { 'datetime': '10/25/2020 13:24:22',
              'direction': 'NW',
@@ -30,6 +30,7 @@ can_data = { 'datetime': '10/25/2020 13:24:22',
              'lat_long': '(38.626550, -90.189260)',
              'mph': '68MPH',
              'g': '0.32 G',
+             'id': '104:325239'
            }
 
 placeholder_text = can_data['datetime'] +\
@@ -44,7 +45,8 @@ placeholder_text = can_data['datetime'] +\
                    delimiter +\
                    can_data['g'] +\
                    delimiter +\
-                   'frame '
+                   can_data['id'] +\
+                   delimiter
 
 size = (frame_width, frame_height)
 video_out = cv2.VideoWriter('../video/filename.mp4',
