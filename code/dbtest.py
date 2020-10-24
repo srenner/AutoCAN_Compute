@@ -1,5 +1,6 @@
 import sqlite3
 import sys
+import RPi.GPIO as GPIO
 
 power_on = True
 session_id = 0
@@ -20,8 +21,12 @@ def fetch_can_data():
     print("fetch_can_data() not implemented")
 
 def main():
+    global front_camera_index
+    global rear_camera_index
+
     if len(sys.argv) > 1:
         front_camera_index = sys.argv[1]
+        pass
     if len(sys.argv) > 2:
         rear_camera_index = sys.argv[2]
 
