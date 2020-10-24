@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Run this on boot or login. Using .bashrc on the pi user should work.
-# Also makes sense to config your system to hide the cursor.
+# Run this on login. Using .bashrc on the pi user is one way.
+# Blinking cursor may be visible unless you config your system to remove it.
 
 fim -q /home/pi/AutoCAN_Imaging/wallpaper/logo.png
