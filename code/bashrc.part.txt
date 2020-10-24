@@ -1,4 +1,3 @@
-# example to show the wallpaper functionality on user login
 # add this snippet to the user's .bashrc file
 
 ./AutoCAN_Imaging/code/wallpaper.sh
