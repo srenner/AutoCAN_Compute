@@ -14,7 +14,7 @@ def create_session(conn):
     conn.commit()
     return c.lastrowid
 
-def end_session(conn):
+def end_session():
     pass
 
 def fetch_can_data():
@@ -23,6 +23,10 @@ def fetch_can_data():
 def main():
     global front_camera_index
     global rear_camera_index
+    global power_on
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(17, GPIO.IN)
 
     if len(sys.argv) > 1:
         front_camera_index = sys.argv[1]
@@ -40,8 +44,10 @@ def main():
         print("Session ID " + str(session_id))
 
     while power_on:
-        pass
+        power_on = not GPIO.input(17)
 
+    if debug:
+        print("Goodbye")
     end_session()
     conn.close()
 
