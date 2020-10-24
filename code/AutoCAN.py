@@ -13,7 +13,7 @@ connection = None
 
 def create_session():
     c = conn.cursor()
-    c.execute("INSERT INTO session DEFAULT VALUES")
+    c.execute("INSERT INTO session (sys_session_start) VALUES (?)", (datetime.now(),))
     conn.commit()
     return c.lastrowid
 
@@ -23,7 +23,7 @@ def end_session():
     c = conn.cursor()
     c.execute("UPDATE session SET sys_session_end = ? where session_id = ?",  (datetime.now(), session_id))
     conn.commit()
-    
+
 def fetch_can_data():
     print("fetch_can_data() not implemented")
 
@@ -33,8 +33,6 @@ def main():
     global power_on
     global conn
     global session_id
-
-    print(datetime.now())
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(17, GPIO.IN)
