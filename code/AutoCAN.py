@@ -3,6 +3,10 @@ import sys
 import RPi.GPIO as GPIO
 import os
 from datetime import datetime
+import multiprocessing
+import cv2
+import time
+import numpy as np
 
 power_on = True
 session_id = 0
@@ -10,6 +14,9 @@ debug = True
 front_camera_index = -1
 rear_camera_index = -1
 connection = None
+
+def create_video(camera_index):
+    print("creating video - placeholder")
 
 def create_session():
     c = conn.cursor()
@@ -52,6 +59,15 @@ def main():
     if debug:
         print("Session ID " + str(session_id))
 
+
+    jobs = []
+    front_video = multiprocessing.Process(target=create_video, args=(front_camera_index,))
+    rear_video = multiprocessing.Process(target=create_video, args=(rear_camera_index,))
+    jobs.append(front_video)
+    jobs.append(rear_video)
+    front_video.start()
+    rear_video.start()
+
     while power_on:
         try:
             power_on = not GPIO.input(17)
@@ -61,10 +77,10 @@ def main():
                 end_session()
                 print("Goodbye")
             sys.exit()
-    
+
+    end_session()
     if debug:
         print("Goodnight")
-    end_session()
     conn.close()
 
     #if online
