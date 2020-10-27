@@ -3,20 +3,30 @@ import sys
 import RPi.GPIO as GPIO
 import os
 from datetime import datetime
-import multiprocessing
+from multiprocessing import Process, Value
 import cv2
 import time
 import numpy as np
 
+#power_on = 1
 power_on = True
 session_id = 0
 debug = True
 front_camera_index = -1
 rear_camera_index = -1
-connection = None
+conn = None
 
-def create_video(camera_index):
+def create_video(camera_index, session_id, conn):
+    session_active = 1
     print("creating video - placeholder")
+    c = conn.cursor()
+    while(session_active):
+        #AND (sys_session_end IS NOT NULL OR gps_session_end IS NOT NULL)
+        c.execute("SELECT COUNT(*) FROM session WHERE session_id = ? AND sys_session_end IS NULL AND gps_session_end IS NULL", (session_id,))
+        result = c.fetchone()
+        session_active = result[0]
+        print("camera " + str(camera_index) + " sees status of " + str(session_active))
+    print("finishing up on camera " + str(camera_index))
 
 def create_session():
     c = conn.cursor()
@@ -61,8 +71,8 @@ def main():
 
 
     jobs = []
-    front_video = multiprocessing.Process(target=create_video, args=(front_camera_index,))
-    rear_video = multiprocessing.Process(target=create_video, args=(rear_camera_index,))
+    front_video = Process(target=create_video, args=(front_camera_index,session_id,conn))
+    rear_video = Process(target=create_video, args=(rear_camera_index,session_id,conn))
     jobs.append(front_video)
     jobs.append(rear_video)
     front_video.start()
@@ -79,16 +89,25 @@ def main():
             sys.exit()
 
     end_session()
-    if debug:
-        print("Goodnight")
     conn.close()
 
-    #if online
+
+
+    time.sleep(5)
+    power_on = not GPIO.input(17)
+    if power_on:
+        main()
+    else:
+        if debug:
+            print("Goodnight")
+        #os.system("sudo shutdown -h now")  
+
+    #if internet
         #upload files and delete
     #else
         #save to subfolder
 
-    os.system("sudo shutdown -h now")  
 
 if __name__ == "__main__":
     main()
+
