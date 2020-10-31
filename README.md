@@ -23,3 +23,4 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [Raspberry Pi OS (32-bit) Lite](https://www.raspberrypi.org/downloads/raspberry-pi-os/)
 * [FIM](https://www.nongnu.org/fbi-improved/) image viewer
 * [OpenCV](https://opencv.org/) computer vision library (Python port)
+* [SQLite](https://www.sqlite.org/index.html) 
