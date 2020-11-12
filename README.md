@@ -15,6 +15,7 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [Raspberry Pi UPS HAT](https://www.pishop.us/product/raspberry-pi-ups-hat/)
 * [PiCAN3 CAN Bus Board](https://copperhilltech.com/pican3-can-bus-board-for-raspberry-pi-4-with-3a-smps-and-rtc/)
 * [Alpine HCE-C1100 camera](https://www.crutchfield.com/p_500HCEC110/Alpine-HCE-C1100.html)
+* [Audiovox ACA800 camera](https://www.crutchfield.com/p_220ACA800/Audiovox-ACA800.html)
 * [BOYO VTSW4](https://visiontechamerica.com/products/vtsw4-4-channel-video-switcher) video switcher
 * 2x [UCEC](https://www.amazon.com/gp/product/B00WSAWZ1M/) brand composite video to USB capture cards
 * 2x [BOSS Audio Systems BVAM5](https://bossaudio.com/product/bvam5/) Video Signal Amplifier
@@ -23,3 +24,4 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [Raspberry Pi OS (32-bit) Lite](https://www.raspberrypi.org/downloads/raspberry-pi-os/)
 * [FIM](https://www.nongnu.org/fbi-improved/) image viewer
 * [OpenCV](https://opencv.org/) computer vision library (Python port)
+* [SQLite](https://www.sqlite.org/index.html) 
