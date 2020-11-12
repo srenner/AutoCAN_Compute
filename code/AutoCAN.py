@@ -14,114 +14,123 @@ session_id = 0
 debug = True
 front_camera_index = -1
 rear_camera_index = -1
-conn = None
+conn_string = '../db/AutoCAN.db'
 
-def create_video(camera_index, session_id, conn):
-    session_active = 1
-    snapshot_interval = 1 #seconds
-    snapshot_sequence = 1 #increment and use on filename
-    frames_per_video = 1000
-    do_snapshot = False
+def create_video(camera_index, session_id, conn_string):
+    conn = sqlite3.connect(conn_string)
+    with conn:
+        session_active = 1
+        snapshot_interval = 1 #seconds
+        snapshot_sequence = 1 #increment and use on filename
+        frames_per_video = 1000
+        do_snapshot = False
 
-    frame_count = 0
+        frame_count = 0
 
-    font = cv2.FONT_HERSHEY_PLAIN
-    text_position = (0,10)
-    font_scale = 0.8
-    font_color = (0,0,0)
-    line_type = 1
+        font = cv2.FONT_HERSHEY_PLAIN
+        text_position = (0,10)
+        font_scale = 0.8
+        font_color = (0,0,0)
+        line_type = 1
 
-    video_cap = cv2.VideoCapture(camera_index)
-    if (video_cap.isOpened() == False):
-        print("Error opening video stream")
-    frame_width = int(video_cap.get(3))
-    frame_height = int(video_cap.get(4))
+        video_cap = cv2.VideoCapture(camera_index)
+        if (video_cap.isOpened() == False):
+            print("Error opening video stream")
+        frame_width = int(video_cap.get(3))
+        frame_height = int(video_cap.get(4))
 
-    #info bar rectangle
-    x, y, w, h = 0, 0, frame_width, 14
-    delimiter = '|'
+        #info bar rectangle
+        x, y, w, h = 0, 0, frame_width, 14
+        delimiter = '|'
 
-    can_data = { 'datetime': '10/25/2020 13:24:22',
-                'direction': 'NW',
-                'temp': '104F',
-                'lat_long': '(38.626550, -90.189260)',
-                'mph': '68MPH',
-                'g': '0.32 G',
-                'id': '104:325239'
-            }
+        can_data = { 'datetime': '10/25/2020 13:24:22',
+                    'direction': 'NW',
+                    'temp': '104F',
+                    'lat_long': '(38.626550, -90.189260)',
+                    'mph': '68MPH',
+                    'g': '0.32 G',
+                    'session': '',
+                    'datarow': '',
+                    'frame': '',
+                    'id': '104:325239'
+                }
 
-    placeholder_text = can_data['datetime'] +\
-                    delimiter +\
-                    can_data['direction'] +\
-                    delimiter +\
-                    can_data['temp'] +\
-                    delimiter +\
-                    can_data['lat_long'] +\
-                    delimiter +\
-                    can_data['mph'] +\
-                    delimiter +\
-                    can_data['g'] +\
-                    delimiter +\
-                    can_data['id'] +\
-                    delimiter
+        placeholder_text = can_data['datetime'] +\
+                        delimiter +\
+                        can_data['direction'] +\
+                        delimiter +\
+                        can_data['temp'] +\
+                        delimiter +\
+                        can_data['lat_long'] +\
+                        delimiter +\
+                        can_data['mph'] +\
+                        delimiter +\
+                        can_data['g'] +\
+                        delimiter +\
+                        can_data['id'] +\
+                        delimiter
 
-    size = (frame_width, frame_height)
-    video_out = cv2.VideoWriter('../video/' + str(session_id) + '_camera_' + str(camera_index) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 29.97, size)
-    do_continue = True
-    current_time = time.time()
-    next_snapshot_time = current_time + snapshot_interval
+        size = (frame_width, frame_height)
+        video_out = cv2.VideoWriter('../video/' + str(session_id) + '_camera_' + str(camera_index) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 29.97, size)
+        do_continue = True
+        current_time = time.time()
+        next_snapshot_time = current_time + snapshot_interval
 
-    c = conn.cursor()
-    while(session_active):
-        c.execute("SELECT COUNT(*) FROM session WHERE session_id = ? AND sys_session_end IS NULL AND gps_session_end IS NULL", (session_id,))
-        result = c.fetchone()
-        session_active = result[0]
-        if session_active:
-            ret, frame = video_cap.read()
-            #print(str(ret))
-            frame_count += 1
+        c = conn.cursor()
+        while(session_active):
+            c.execute("SELECT COUNT(*) FROM session WHERE session_id = ? AND sys_session_end IS NULL AND gps_session_end IS NULL", (session_id,))
+            result = c.fetchone()
+            session_active = result[0]
+            if session_active:
+                ret, frame = video_cap.read()
+                #print(str(ret))
+                frame_count += 1
 
-            # put semi-transparent box on top of frame
-            sub_img = frame[y:y+h, x:x+w]
-            white_rect = np.ones(sub_img.shape, dtype=np.uint8) * 255
-            res = cv2.addWeighted(sub_img, 0.5, white_rect, 0.5, 1.0)
-            frame[y:y+h, x:x+w] = res
+                # put semi-transparent box on top of frame
+                sub_img = frame[y:y+h, x:x+w]
+                white_rect = np.ones(sub_img.shape, dtype=np.uint8) * 255
+                res = cv2.addWeighted(sub_img, 0.5, white_rect, 0.5, 1.0)
+                frame[y:y+h, x:x+w] = res
 
-            cv2.putText(frame, placeholder_text + str(frame_count),
-                text_position,
-                font,
-                font_scale,
-                font_color,
-                line_type)
+                cv2.putText(frame, placeholder_text + str(frame_count),
+                    text_position,
+                    font,
+                    font_scale,
+                    font_color,
+                    line_type)
 
-            do_continue = ret
-            if do_continue == True:
-                if do_snapshot == True:
-                    current_time = time.time()
-                    if current_time >= next_snapshot_time:
-                        next_snapshot_time = current_time + snapshot_interval
-                        cv2.imwrite('../snapshot/snapshot_' + camera_index + "_" + str(snapshot_sequence) + '.jpg', frame)
-                        snapshot_sequence += 1
-                video_out.write(frame)
-            else:
-                break
+                do_continue = ret
+                if do_continue == True:
+                    if do_snapshot == True:
+                        current_time = time.time()
+                        if current_time >= next_snapshot_time:
+                            next_snapshot_time = current_time + snapshot_interval
+                            cv2.imwrite('../snapshot/snapshot_' + camera_index + "_" + str(snapshot_sequence) + '.jpg', frame)
+                            snapshot_sequence += 1
+                    video_out.write(frame)
+                else:
+                    break
 
-    video_cap.release()
-    video_out.release()
-    print("finishing up on camera " + str(camera_index))
+        video_cap.release()
+        video_out.release()
+        print("finishing up on camera " + str(camera_index))
 
-def create_session():
-    c = conn.cursor()
-    c.execute("INSERT INTO session (sys_session_start) VALUES (?)", (datetime.now(),))
-    conn.commit()
-    return c.lastrowid
+def create_session(conn_string):
+    conn = sqlite3.connect(conn_string)
+    with conn:
+        c = conn.cursor()
+        c.execute("INSERT INTO session (sys_session_start) VALUES (?)", (datetime.now(),))
+        conn.commit()
+        return c.lastrowid
 
-def end_session():
+def end_session(conn_string):
     if debug:
         print("Ending Session " + str(session_id))
-    c = conn.cursor()
-    c.execute("UPDATE session SET sys_session_end = ? where session_id = ?",  (datetime.now(), session_id))
-    conn.commit()
+    conn = sqlite3.connect(conn_string)
+    with conn:
+        c = conn.cursor()
+        c.execute("UPDATE session SET sys_session_end = ? where session_id = ?",  (datetime.now(), session_id))
+        conn.commit()
 
 def fetch_can_data():
     print("fetch_can_data() not implemented")
@@ -130,7 +139,7 @@ def main():
     global front_camera_index
     global rear_camera_index
     global power_on
-    global conn
+    global conn_string
     global session_id
 
     GPIO.setmode(GPIO.BCM)
@@ -143,23 +152,24 @@ def main():
         rear_camera_index = int(sys.argv[2])
 
     if debug:
+        print("Script updated " + str(time.ctime(os.path.getmtime('AutoCAN.py'))))
         print("Front camera index: " + str(front_camera_index))
         print("Rear camera index: " + str(rear_camera_index))
 
-    conn = sqlite3.connect('../db/AutoCAN.db')
-    session_id = create_session()
+    
+    session_id = create_session(conn_string)
     if debug:
         print("Session ID " + str(session_id))
 
     jobs = []
 
     if int(front_camera_index) > -1:
-        front_video = Process(target=create_video, args=(front_camera_index,session_id,conn))
+        front_video = Process(target=create_video, args=(front_camera_index,session_id,conn_string))
         jobs.append(front_video)
         front_video.start()
 
     if int(rear_camera_index) > -1:
-        rear_video = Process(target=create_video, args=(rear_camera_index,session_id,conn))
+        rear_video = Process(target=create_video, args=(rear_camera_index,session_id,conn_string))
         jobs.append(rear_video)
         rear_video.start()
 
@@ -170,13 +180,10 @@ def main():
             if debug:
                 print("")
                 print("Goodbye")
-            #end_session()
-            end_session()
-            conn.close()
+            end_session(conn_string)
             sys.exit()
 
-    end_session()
-    conn.close()
+    end_session(conn_string)
 
     #if internet
         #upload files and delete
