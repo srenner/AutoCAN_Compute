@@ -213,7 +213,7 @@ def main():
     else:
         if debug:
             print("Goodnight")
-        #os.system("sudo shutdown -h now")  
+        os.system("sudo shutdown -h now")  
 
 if __name__ == "__main__":
     main()
