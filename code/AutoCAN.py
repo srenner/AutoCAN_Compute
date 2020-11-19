@@ -36,27 +36,17 @@ def create_video(camera_index, session_id, conn_string):
         line_type = 1
 
         video_cap = cv2.VideoCapture(camera_index)
-        #video_cap.set(cv2.CV_CAP_PROP_CONVERT_RGB, False)
-        #video_cap.set(cv2.CV_CAP_PROP_MODE, cv2.CV_CAP_MODE_YUYV)
-        #video_cap.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
         if (video_cap.isOpened() == False):
             print("Error opening video stream")
         frame_width = int(video_cap.get(3))
         frame_height = int(video_cap.get(4))
         frame_rate = float(video_cap.get(5))
-        #codec = str(video_cap.get(6))
-        #print(codec)
 
         #print("LIST PROPS================")
         #for x in range(21):
         #    print(str(video_cap.get(x)))
         #
         #print("END PROPS=================")
-
-
-
-        #frame_width = 720
-        #frame_height = 480
 
         #info bar rectangle
         x, y, w, h = 0, 0, frame_width, 14
@@ -187,16 +177,11 @@ def main():
         front_video = Process(target=create_video, args=(front_camera_index,session_id,conn_string))
         jobs.append(front_video)
         front_video.start()
-        #front_thread = threading.Thread(target=create_video, args=(front_camera_index,session_id,conn_string))
-        #front_thread.start()
-
 
     if int(rear_camera_index) > -1:
         rear_video = Process(target=create_video, args=(rear_camera_index,session_id,conn_string))
         jobs.append(rear_video)
         rear_video.start()
-        #rear_thread = threading.Thread(target=create_video, args=(rear_camera_index,session_id,conn_string))
-        #rear_thread.start()
 
     while power_on:
         try:
