@@ -25,9 +25,10 @@ def create_video(camera_index, session_id, conn_string):
         snapshot_interval = 1 #seconds
         snapshot_sequence = 1 #increment and use on filename
         frames_per_video = 1000
-        do_snapshot = False
-
+        next_frame_cut = frames_per_video
         frame_count = 0
+
+        do_snapshot = False #whether or not to take periodic jpg stills in addition to video
 
         font = cv2.FONT_HERSHEY_PLAIN
         text_position = (0,10)
@@ -81,7 +82,7 @@ def create_video(camera_index, session_id, conn_string):
 
         size = (frame_width, frame_height)
         #video_out = cv2.VideoWriter('../video/' + str(session_id) + '_camera_' + str(camera_index) + '.avi', cv2.VideoWriter_fourcc(*'YUYV'), frame_rate, size)
-        video_out = cv2.VideoWriter('../video/' + str(session_id) + '_camera_' + str(camera_index) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, size)
+        video_out = cv2.VideoWriter('../video/' + str(session_id) + '-camera' + str(camera_index) + '-' + str(next_frame_cut) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, size)
         do_continue = True
         current_time = time.time()
         next_snapshot_time = current_time + snapshot_interval
@@ -120,6 +121,11 @@ def create_video(camera_index, session_id, conn_string):
                     video_out.write(frame)
                 else:
                     break
+                
+                if frame_count >= next_frame_cut:
+                    next_frame_cut = next_frame_cut + frames_per_video
+                    video_out = cv2.VideoWriter('../video/' + str(session_id) + '-camera' + str(camera_index) + '-' + str(next_frame_cut) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, size)
+
 
         video_cap.release()
         video_out.release()
