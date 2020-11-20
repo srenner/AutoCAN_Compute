@@ -27,7 +27,7 @@ def create_video(camera_index, session_id, conn_string):
         frame_count = 0                     #actual frames being written
         loop_count = 0                      #iterations through the while loop
 
-        do_snapshot = True                  #whether or not to take periodic jpg stills in addition to video
+        do_snapshot = False                 #whether or not to take periodic jpg stills in addition to video
         snapshot_interval = 0.25            #seconds
         snapshot_sequence = 1               #increment and use on filename
 
