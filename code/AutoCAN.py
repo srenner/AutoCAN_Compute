@@ -31,7 +31,7 @@ def create_video(camera_index, session_id, conn_string):
         snapshot_interval = 0.25            #seconds
         snapshot_sequence = 1               #increment and use on filename
 
-        do_video = False
+        do_video = True
 
         font = cv2.FONT_HERSHEY_PLAIN
         text_position = (0,10)
