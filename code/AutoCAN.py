@@ -22,13 +22,16 @@ def create_video(camera_index, session_id, conn_string):
     conn = sqlite3.connect(conn_string)
     with conn:
         session_active = 1
-        snapshot_interval = 1 #seconds
-        snapshot_sequence = 1 #increment and use on filename
         frames_per_video = 1000
         next_frame_cut = frames_per_video
-        frame_count = 0
+        frame_count = 0                     #actual frames being written
+        loop_count = 0                      #iterations through the while loop
 
-        do_snapshot = False #whether or not to take periodic jpg stills in addition to video
+        do_snapshot = True                  #whether or not to take periodic jpg stills in addition to video
+        snapshot_interval = 0.25            #seconds
+        snapshot_sequence = 1               #increment and use on filename
+
+        do_video = False
 
         font = cv2.FONT_HERSHEY_PLAIN
         text_position = (0,10)
@@ -41,7 +44,7 @@ def create_video(camera_index, session_id, conn_string):
             print("Error opening video stream")
         frame_width = int(video_cap.get(3))
         frame_height = int(video_cap.get(4))
-        frame_rate = float(video_cap.get(5))
+        frame_rate = (float(video_cap.get(5))) / 3.0
 
         #print("LIST PROPS================")
         #for x in range(21):
@@ -82,7 +85,8 @@ def create_video(camera_index, session_id, conn_string):
 
         size = (frame_width, frame_height)
         #video_out = cv2.VideoWriter('../video/' + str(session_id) + '_camera_' + str(camera_index) + '.avi', cv2.VideoWriter_fourcc(*'YUYV'), frame_rate, size)
-        video_out = cv2.VideoWriter('../video/' + str(session_id) + '-camera' + str(camera_index) + '-' + str(next_frame_cut) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, size)
+        if do_video:
+            video_out = cv2.VideoWriter('../video/' + str(session_id) + '-camera' + str(camera_index) + '-' + str(next_frame_cut) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, size)
         do_continue = True
         current_time = time.time()
         next_snapshot_time = current_time + snapshot_interval
@@ -93,9 +97,12 @@ def create_video(camera_index, session_id, conn_string):
             result = c.fetchone()
             session_active = result[0]
             if session_active:
+                loop_count += 1
+                if loop_count % 7 == 0:
+                    pass
                 ret, frame = video_cap.read()
                 #print(str(ret))
-                frame_count += 1
+                #frame_count += 1
 
                 # put semi-transparent box on top of frame
                 sub_img = frame[y:y+h, x:x+w]
@@ -116,15 +123,19 @@ def create_video(camera_index, session_id, conn_string):
                         current_time = time.time()
                         if current_time >= next_snapshot_time:
                             next_snapshot_time = current_time + snapshot_interval
-                            cv2.imwrite('../snapshot/snapshot_' + camera_index + "_" + str(snapshot_sequence) + '.jpg', frame)
+                            cv2.imwrite('../snapshot/' + str(session_id) + '-camera' + str(camera_index) + "-" + str(snapshot_sequence) + '.jpg', frame)
                             snapshot_sequence += 1
-                    video_out.write(frame)
+                    if loop_count % 3 == 0:
+                        frame_count += 1
+                        if do_video:
+                            video_out.write(frame)
                 else:
                     break
                 
                 if frame_count >= next_frame_cut:
                     next_frame_cut = next_frame_cut + frames_per_video
-                    video_out = cv2.VideoWriter('../video/' + str(session_id) + '-camera' + str(camera_index) + '-' + str(next_frame_cut) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, size)
+                    if do_video:
+                        video_out = cv2.VideoWriter('../video/' + str(session_id) + '-camera' + str(camera_index) + '-' + str(next_frame_cut) + '.mp4', cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, size)
 
 
         video_cap.release()
@@ -163,7 +174,6 @@ def main():
 
     if len(sys.argv) > 1:
         front_camera_index = int(sys.argv[1])
-        pass
     if len(sys.argv) > 2:
         rear_camera_index = int(sys.argv[2])
 
