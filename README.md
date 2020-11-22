@@ -25,3 +25,15 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [FIM](https://www.nongnu.org/fbi-improved/) image viewer
 * [OpenCV](https://opencv.org/) computer vision library (Python port)
 * [SQLite](https://www.sqlite.org/index.html) 
+
+### Raspberry Pi GPIO
+| GPIO Pin | Usage                      |
+|----------|----------------------------|
+|4         |PiCAN LED                   |
+|16        |Video splitter output #4    |
+|17        |UPS check for power failure |
+|18        |UPS check for shutdown      |
+|20        |Video splitter output #3    |
+|21        |Video splitter output #2    |
+|25        |PiCAN Rx interrupt          |
+|27        |UPS heartbeat toggle        |
