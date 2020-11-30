@@ -17,7 +17,7 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [Alpine HCE-C1100 camera](https://www.crutchfield.com/p_500HCEC110/Alpine-HCE-C1100.html)
 * [Audiovox ACA800 camera](https://www.crutchfield.com/p_220ACA800/Audiovox-ACA800.html)
 * [BOYO VTSW4](https://visiontechamerica.com/products/vtsw4-4-channel-video-switcher) video switcher
-* 2x [UCEC](https://www.amazon.com/gp/product/B00WSAWZ1M/) brand composite video to USB capture cards
+* 2x [REDGO](https://www.amazon.com/REDGO-Video-Capture-Converter-Adapter/dp/B01E5ITE2W) brand composite video to USB capture cards
 * 2x [BOSS Audio Systems BVAM5](https://bossaudio.com/product/bvam5/) Video Signal Amplifier
 
 ### Software used
@@ -25,3 +25,15 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [FIM](https://www.nongnu.org/fbi-improved/) image viewer
 * [OpenCV](https://opencv.org/) computer vision library (Python port)
 * [SQLite](https://www.sqlite.org/index.html) 
+
+### Raspberry Pi GPIO
+| GPIO Pin | Usage                      |
+|----------|----------------------------|
+|4         |PiCAN LED                   |
+|16        |Video splitter output #4    |
+|17        |UPS check for power failure |
+|18        |UPS check for shutdown      |
+|20        |Video splitter output #3    |
+|21        |Video splitter output #2    |
+|25        |PiCAN Rx interrupt          |
+|27        |UPS heartbeat toggle        |
