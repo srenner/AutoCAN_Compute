@@ -19,6 +19,7 @@ A video switcher will send video to the dashboard. When the car is being driven 
 * [BOYO VTSW4](https://visiontechamerica.com/products/vtsw4-4-channel-video-switcher) video switcher
 * 2x [REDGO](https://www.amazon.com/REDGO-Video-Capture-Converter-Adapter/dp/B01E5ITE2W) brand composite video to USB capture cards
 * 2x [BOSS Audio Systems BVAM5](https://bossaudio.com/product/bvam5/) Video Signal Amplifier
+* [EchoMaster DVR-20M](https://catalog.echomaster.com/catalog/dash-cams-dvrs/dvr-20m) 2 channel DVR
 
 ### Software used
 * [Raspberry Pi OS (32-bit) Lite](https://www.raspberrypi.org/downloads/raspberry-pi-os/)
