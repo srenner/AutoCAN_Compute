@@ -1,12 +1,6 @@
-# AutoCAN_Imaging
+# AutoCAN_Compute
 
-Process multiple automotive camera feeds to include with data logs while simultaneously displaying video to the driver.
-
-### Principle of operation
-
-The car will be equipped with a traditional aftermarket backup camera, plus an additional camera mounted on the front of the car. The signal from both cameras will be fed to the Raspberry Pi to collect as dashcam data. The Raspberry Pi will collect real time engine stats and sensor readings from MegaSquirt and AutoCAN_SensorHub via CAN bus. The video feeds and CAN bus readings will be combined into a unified data log. For example, it could be useful to see exactly how fast your car was going at the moment of impact in a rear-end collision.
-
-A video switcher will send video to the dashboard. When the car is being driven normally, the display will show a static image from the Raspberry Pi. When the car is stopped or moving forward below 10mph, the display will show the forward camera (to assist with parking, etc). When the car is in reverse, the backup camera will be shown on the display.
+A CAN bus connected Raspberry Pi to perform the tasks that are not so easy to do with an Arduino-like device.
 
 ### Hardware used
 * [NTSC display](https://www.adafruit.com/product/911)
