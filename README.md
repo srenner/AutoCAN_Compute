@@ -11,7 +11,6 @@ A CAN bus connected Raspberry Pi to perform the tasks that are not so easy to do
 * [Alpine HCE-C1100 camera](https://www.crutchfield.com/p_500HCEC110/Alpine-HCE-C1100.html)
 * [Audiovox ACA800 camera](https://www.crutchfield.com/p_220ACA800/Audiovox-ACA800.html)
 * [BOYO VTSW4](https://visiontechamerica.com/products/vtsw4-4-channel-video-switcher) video switcher
-* 2x [REDGO](https://www.amazon.com/REDGO-Video-Capture-Converter-Adapter/dp/B01E5ITE2W) brand composite video to USB capture cards
 * 2x [BOSS Audio Systems BVAM5](https://bossaudio.com/product/bvam5/) Video Signal Amplifier
 * [EchoMaster DVR-20M](https://catalog.echomaster.com/catalog/dash-cams-dvrs/dvr-20m) 2 channel DVR
 
